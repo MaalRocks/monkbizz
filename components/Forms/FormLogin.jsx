@@ -7,7 +7,7 @@ const FormLogin = ({ children }) => {
 		event.preventDefault()
 
 		const formData = {
-			userName: event.target.userName.value,
+			userEmail: event.target.userEmail.value,
 			userPassword: event.target.userPassword.value,
 		}
 
@@ -29,19 +29,9 @@ const FormLogin = ({ children }) => {
 		}
 
 		if (result.data) {
-			router.push(result.data._id)
+			console.log("result: ", result.data._id)
+			router.push(`/${result.data._id}`)
 		}
-
-		console.log("call API here")
-
-		/* find all the data in our database */
-		// const resultUser = await User.find({})
-		// console.log("resultUser: ", resultUser)
-		// const users = resultUser.map((doc) => {
-		// 	const user = doc.toObject()
-		// 	user._id = user._id.toString()
-		// 	return user
-		// })
 	}
 	return (
 		<form className="flex flex-col" onSubmit={handleSubmit}>

@@ -19,11 +19,11 @@ const Index = ({ pets }) => {
 					<FormLogin>
 						<div>
 							<InputLogin
-								type="text"
-								id="userName"
-								name="userName"
-								labelText="Benutzer"
-								placeholder="Benutzer"
+								type="email"
+								id="userEmail"
+								name="userEmail"
+								labelText="Email"
+								placeholder="Email"
 								required="required"
 							/>
 
@@ -104,7 +104,7 @@ export async function getServerSideProps() {
 
 	/* find all the data in our database */
 	const resultPet = await Pet.find({})
-	console.log("resultPet: ", resultPet)
+
 	const pets = resultPet.map((doc) => {
 		const pet = doc.toObject()
 		pet._id = pet._id.toString()
