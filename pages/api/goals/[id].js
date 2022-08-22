@@ -22,10 +22,11 @@ export default async function handler(req, res) {
 			}
 			break
 
-		case "GETBYNAME" /* Get a model by its Name */:
+		case "GETBYUSERID" /* Get models by their UserID */:
+			console.log("getbyuserid")
 			try {
-				const deletedGoal = await Goal.deleteOne({ _id: id })
-				if (!deletedGoal) {
+				const goals = await Goal.find({ user: id })
+				if (!goals) {
 					return res.status(400).json({ success: false })
 				}
 				res.status(200).json({ success: true, data: {} })

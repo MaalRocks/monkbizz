@@ -64,7 +64,6 @@ const PetPage = ({ pet }) => {
 }
 
 export async function getServerSideProps({ params }) {
-	console.log("[id] - index")
 	await dbConnect()
 
 	const pet = await Pet.findById(params.id).lean()
