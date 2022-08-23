@@ -6,9 +6,16 @@ import dbConnect from "../../lib/dbConnect"
 import User from "../../models/User"
 import Goal from "../../models/Goal"
 import Card from "../../components/Card"
+import useSWR from "swr"
 
-/* Allows you to view user card info and delete user card*/
+const fetcher = (url) => fetch(url).then((res) => res.json())
+
 const Dashboard = ({ user }) => {
+	console.log("##########################")
+	console.log("Daschboard: wird gerendert")
+
+	const { data, error } = useSWR(`/api/users/${user._id}`, fetcher)
+
 	const router = useRouter()
 	const [message, setMessage] = useState("")
 	const [goals, setGoals] = useState(
@@ -16,8 +23,6 @@ const Dashboard = ({ user }) => {
 			res.json()
 		)
 	)
-
-	console.log("Daschboard: klappt")
 
 	useEffect(() => {
 		fetch(`/api/goals/${user._id}`, { method: "GetByUserID" })
@@ -57,6 +62,11 @@ export async function getServerSideProps({ params }) {
 
 	const user = await User.findById(params.id).lean()
 	user._id = user._id.toString()
+
+	// kann goals hier holen
+	// es anhand des Goal.Models dingsen(wie ist der richtige begriff?)
+	// und dann als json per prop übergeben ans dashboard übergeben
+	// hier war die nestung das problem
 
 	return { props: { user } }
 }
