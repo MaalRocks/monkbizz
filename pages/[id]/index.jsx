@@ -11,15 +11,21 @@ import Card from "../../components/Card"
 const Dashboard = ({ user }) => {
 	const router = useRouter()
 	const [message, setMessage] = useState("")
+	const [goals, setGoals] = useState(
+		fetch(`/api/goals/${user._id}`, { method: "GetByUserID" }).then((res) =>
+			res.json()
+		)
+	)
 
 	console.log("Daschboard: klappt")
 
 	useEffect(() => {
-		const goals = fetch(`/api/goals/${user._id}`, {
-			method: "GetByUserID",
-		})
+		fetch(`/api/goals/${user._id}`, { method: "GetByUserID" })
+			.then((res) => res.json())
+			.then((data) => setGoals(data))
+
 		console.log("goals: ", goals)
-	})
+	}, [goals])
 
 	const handleDelete = async () => {
 		const userID = router.query.id
@@ -39,8 +45,8 @@ const Dashboard = ({ user }) => {
 			<Head>
 				<title>Dashboard</title>
 			</Head>
-			<Card data={user} />
-			<Card data={goals} />
+			<Card title={user.name} />
+
 			<div key={user._id}>{message && <p>{message}</p>}</div>
 		</div>
 	)
